@@ -57,17 +57,17 @@ public class EquipoServiceImpl implements EquipoService {
 
         Optional<Equipo> o = repository.findById(equipoId);
         if (o.isPresent()) {
-            Jugador usuarioMsvc = client.detalle(jugador.getId());
+            Jugador JugadorMsvc = client.detalle(jugador.getId());
 
-            System.out.println(usuarioMsvc.getNombre());
+            System.out.println(JugadorMsvc.getNombre());
 
             Equipo equipo = o.get();
             EquipoJugador equipoJugador = new EquipoJugador();
-            equipoJugador.setJugadorId(usuarioMsvc.getId());
+            equipoJugador.setJugadorId(JugadorMsvc.getId());
 
             equipo.addequipoJugadorList(equipoJugador);
             repository.save(equipo);
-            return Optional.of(usuarioMsvc);
+            return Optional.of(JugadorMsvc);
         }
 
         return Optional.empty();
@@ -104,15 +104,15 @@ public class EquipoServiceImpl implements EquipoService {
 
         Optional<Equipo> o = repository.findById(equipoId);
         if (o.isPresent()) {
-            Jugador usuarioMsvc = client.detalle(jugador.getId());
+            Jugador jugadorMsvc = client.detalle(jugador.getId());
 
             Equipo equipo = o.get();
             EquipoJugador equipoJugador = new EquipoJugador();
-            equipoJugador.setJugadorId(usuarioMsvc.getId());
+            equipoJugador.setJugadorId(jugadorMsvc.getId());
 
             equipo.removeEquipoJugadores(equipoJugador);
             repository.save(equipo);
-            return Optional.of(usuarioMsvc);
+            return Optional.of(jugadorMsvc);
         }
 
 
@@ -129,8 +129,8 @@ public class EquipoServiceImpl implements EquipoService {
                 List<Long> ids = equipo.getEquipoJugadorList().stream().map(cu -> cu.getJugadorId())
                         .collect(Collectors.toList());
 
-                List<Jugador> usuarios = client.obtenerJugadorPorEquipo(ids);
-                equipo.setJugadoresList(usuarios);
+                List<Jugador> jugadorList = client.obtenerJugadorPorEquipo(ids);
+                equipo.setJugadoresList(jugadorList);
             }
             return Optional.of(equipo);
         }

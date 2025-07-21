@@ -95,10 +95,10 @@ Equipo equipoBd = service.guardar(equipo);
     }
 
     @PostMapping("/crear-jugador/{equipoId}")
-    public ResponseEntity<?> crearJugador(@RequestBody Jugador usuario, @PathVariable Long equipoId) {
+    public ResponseEntity<?> crearJugador(@RequestBody Jugador jugador, @PathVariable Long equipoId) {
         Optional<Jugador> o;
         try {
-            o = service.crearJugador(usuario, equipoId);
+            o = service.crearJugador(jugador, equipoId);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Collections.singletonMap("mensaje", "No se pudo crear el jugador " +
@@ -111,10 +111,10 @@ Equipo equipoBd = service.guardar(equipo);
     }
 
     @DeleteMapping("/eliminar-jugador/{equipoId}")
-    public ResponseEntity<?> eliminarJugador(@RequestBody Jugador usuario, @PathVariable Long equipoId) {
+    public ResponseEntity<?> eliminarJugador(@RequestBody Jugador jugador, @PathVariable Long equipoId) {
         Optional<Jugador> o;
         try {
-            o = service.eliminarJugador(usuario, equipoId);
+            o = service.eliminarJugador(jugador, equipoId);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Collections.singletonMap("mensaje", "No existe el jugador por " +
