@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name="msvc-jugadores", url="localhost:8005")
+@FeignClient(name="msvc-jugadores", url="host.docker.internal:8005")
 public interface JugadorClientRest {
     @GetMapping("/{id}")
     Jugador detalle(@PathVariable Long id);

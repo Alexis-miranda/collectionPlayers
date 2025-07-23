@@ -55,7 +55,7 @@ Jugador jugadorDb = service.guardar(jugador);
             Jugador usuarioDb = o.get();
 
             usuarioDb.setNombre(jugador.getNombre());
-           // usuarioDb.setEquipo(usuario.getEquipo());
+           // usuarioDb.setEquipo(jugador.getEquipo());
             usuarioDb.setDorsal(jugador.getDorsal());
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(usuarioDb));
         }
