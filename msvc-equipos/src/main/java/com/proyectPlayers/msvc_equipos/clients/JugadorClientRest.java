@@ -20,5 +20,5 @@ public interface JugadorClientRest {
     Jugador crear(@RequestBody Jugador jugador);
 
     @GetExchange("/jugadores-por-equipo")
-    List<Jugador> obtenerJugadorPorEquipo(@RequestParam("ids") Iterable<Long> ids);
+    List<Jugador> obtenerJugadorPorEquipo(@RequestParam("ids") List<Long> ids);
 }
