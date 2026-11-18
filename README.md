@@ -132,7 +132,7 @@ These are observations from the source, not claims that every workflow has been 
 | MySQL | Retained | Player statistics |
 | Jakarta Bean Validation | Managed by Spring Boot | Request validation |
 
-The branch aligns build files to this baseline. The migration is **not verified until a clean full-reactor build and tests succeed**.
+The branch aligns build files to this baseline. A clean full-reactor build and the current application-context smoke tests have passed in GitHub Actions on Java 25. Runtime checks against the real PostgreSQL and MySQL instances remain outstanding.
 
 ### Planned supporting technologies
 
@@ -239,7 +239,7 @@ Run an individual service after the reactor has been built:
 ./mvnw -pl msvc-estadistica spring-boot:run
 ~~~
 
-These commands describe the intended Maven workflow after the reactor migration. They must be confirmed by a clean build and runtime smoke tests before being treated as verified. The database services must also be running and configured.
+The full-reactor command has passed in GitHub Actions on Java 25. Starting services against real database instances and checking inter-service calls remain separate verification tasks. The database services must be running and configured.
 
 ## Configuration and secrets
 
@@ -285,7 +285,7 @@ The work is split into verifiable increments. Items are only marked complete whe
 - [x] Update Maven Wrapper distribution to 3.10.1.
 - [x] Replace OpenFeign declarations with Spring HTTP Service Client interfaces.
 - [x] Make the Teams → Players service base URL configurable.
-- [ ] Run a clean full-reactor build and resolve migration issues.
+- [x] Run a clean full-reactor build and resolve migration issues (GitHub Actions, Java 25).
 - [ ] Start each service and verify runtime/database connectivity.
 
 ### Phase 2 — Service and API design
