@@ -23,6 +23,11 @@ public class JugadorController {
         return ResponseEntity.ok(service.listar());
     }
 
+    @GetMapping("/jugadores-por-equipo")
+    public ResponseEntity<List<Jugador>> listarPorIds(@RequestParam("ids") List<Long> ids) {
+        return ResponseEntity.ok(service.listarPorIds(ids));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> detalle(@PathVariable Long id) {
         Optional<Jugador> usuarioOptional = service.porId(id);
