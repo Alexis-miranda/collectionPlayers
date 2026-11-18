@@ -63,7 +63,7 @@ flowchart TB
     Gateway -. routes .-> Matches
     Gateway -. routes .-> Championships
 
-    Teams <-->|REST / HTTP interfaces| Players
+    Teams -->|REST / HTTP interfaces| Players
     Statistics -. uses match and player identifiers .-> Matches
     Championships -. coordinates fixtures .-> Matches
 
@@ -83,7 +83,7 @@ The gateway and the future database/service relationships shown above are archit
 - Keep remote service base URLs configurable through environment variables.
 - Define explicit request/response DTOs instead of sharing persistence entities.
 - Add connection/response timeouts and deliberate downstream error handling.
-- Review the existing bidirectional Players ↔ Teams dependency. The intended direction is for Teams to own squad membership and avoid requiring Players to call Teams for ordinary player lifecycle operations.
+- Keep the dependency one-way: Teams orchestrates squad membership and calls the Players API; Players does not call Teams back.
 - Consider asynchronous messaging only when a concrete use case requires it. Kafka and RabbitMQ are not currently implemented.
 
 ## Services and current scope
@@ -283,7 +283,7 @@ The work is split into verifiable increments. Items are only marked complete whe
 - [x] Align build files to Spring Boot 4.1.2 / Java 25.
 - [x] Update Maven Wrapper distribution to 3.10.1.
 - [x] Replace OpenFeign declarations with Spring HTTP Service Client interfaces.
-- [x] Make Players ↔ Teams service base URLs configurable.
+- [x] Make the Teams → Players service base URL configurable.
 - [ ] Run a clean full-reactor build and resolve migration issues.
 - [ ] Start each service and verify runtime/database connectivity.
 
@@ -292,7 +292,7 @@ The work is split into verifiable increments. Items are only marked complete whe
 - [ ] Define API base paths and versioning.
 - [ ] Introduce request/response DTOs; stop exposing persistence entities.
 - [ ] Standardise validation, exception handling and error responses.
-- [ ] Simplify the bidirectional Players ↔ Teams workflow.
+- [x] Remove the unused reverse Players → Teams HTTP client; Teams remains the owner of squad membership workflows.
 - [ ] Define the Matches domain model and API.
 - [ ] Define the Championships domain model and API.
 - [ ] Add pagination, sorting and filtering where needed.
