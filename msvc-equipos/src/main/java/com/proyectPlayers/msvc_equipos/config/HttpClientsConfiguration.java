@@ -13,9 +13,8 @@ public class HttpClientsConfiguration {
 
     @Bean
     JugadorClientRest jugadorClient(
-            RestClient.Builder builder,
             @Value("${services.jugadores.base-url}") String baseUrl) {
-        RestClient restClient = builder.baseUrl(baseUrl).build();
+        RestClient restClient = RestClient.builder().baseUrl(baseUrl).build();
         HttpServiceProxyFactory factory =
                 HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
         return factory.createClient(JugadorClientRest.class);
