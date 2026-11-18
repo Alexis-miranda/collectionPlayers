@@ -83,10 +83,9 @@ Equipo equipoBd = service.guardar(equipo);
         try {
 
             o = service.asignarJugador(jugador, equipoId);
-        } catch (FeignException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("mensaje", "No existe el jugador por " +
-                            "el id o error en la comunicacion: " + e.getMessage()));
+        } catch (RestClientException e) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body(Collections.singletonMap("mensaje", "Error al comunicarse con el servicio de jugadores: " + e.getMessage()));
         }
         if (o.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(o.get());
@@ -99,10 +98,9 @@ Equipo equipoBd = service.guardar(equipo);
         Optional<Jugador> o;
         try {
             o = service.crearJugador(jugador, equipoId);
-        } catch (FeignException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("mensaje", "No se pudo crear el jugador " +
-                            "o error en la comunicacion: " + e.getMessage()));
+        } catch (RestClientException e) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body(Collections.singletonMap("mensaje", "Error al comunicarse con el servicio de jugadores: " + e.getMessage()));
         }
         if (o.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(o.get());
@@ -115,10 +113,9 @@ Equipo equipoBd = service.guardar(equipo);
         Optional<Jugador> o;
         try {
             o = service.eliminarJugador(jugador, equipoId);
-        } catch (FeignException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("mensaje", "No existe el jugador por " +
-                            "el id o error en la comunicacion: " + e.getMessage()));
+        } catch (RestClientException e) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body(Collections.singletonMap("mensaje", "Error al comunicarse con el servicio de jugadores: " + e.getMessage()));
         }
         if (o.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(o.get());
