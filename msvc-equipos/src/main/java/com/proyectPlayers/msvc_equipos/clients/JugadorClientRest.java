@@ -1,19 +1,24 @@
 package com.proyectPlayers.msvc_equipos.clients;
 
 import com.proyectPlayers.msvc_equipos.models.Jugador;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 
 import java.util.List;
 
-@FeignClient(name="msvc-jugadores", url="host.docker.internal:8005")
+@HttpExchange
 public interface JugadorClientRest {
-    @GetMapping("/{id}")
-    Jugador detalle(@PathVariable Long id);
 
-    @PostMapping("/")
+    @GetExchange("/{id}")
+    Jugador detalle(@PathVariable("id") Long id);
+
+    @PostExchange("/")
     Jugador crear(@RequestBody Jugador jugador);
 
-    @GetMapping("/jugadores-por-equipo")
-    List<Jugador> obtenerJugadorPorEquipo(@RequestParam Iterable<Long> ids);
+    @GetExchange("/jugadores-por-equipo")
+    List<Jugador> obtenerJugadorPorEquipo(@RequestParam("ids") Iterable<Long> ids);
 }
