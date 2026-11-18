@@ -60,7 +60,8 @@ public class EstadisticaController {
             jugadorModificado.setMinutosJugados(estadisticaNueva.getMinutosJugados());
             jugadorModificado.setTarjetasAmarillas(estadisticaNueva.getTarjetasAmarillas());
             jugadorModificado.setTarjetasRojas(estadisticaNueva.getTarjetasRojas());
-            jugadorModificado.setPartido(estadisticaNueva.getPartido());
+            jugadorModificado.setPartidoId(estadisticaNueva.getPartidoId());
+            jugadorModificado.setJugadorId(estadisticaNueva.getJugadorId());
 
             ResponseEntity.status(HttpStatus.OK).body(service.guardar(jugadorModificado));
 
