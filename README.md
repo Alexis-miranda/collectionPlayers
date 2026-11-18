@@ -245,9 +245,8 @@ These commands describe the intended Maven workflow after the reactor migration.
 
 The database connection settings currently in the repository still reflect an earlier local-development setup. They do not describe the new database instance and must be replaced when database configuration is revisited.
 
-This modernization has made the Players ↔ Teams HTTP base URLs configurable:
+This modernization has made the Teams → Players HTTP base URL configurable:
 
-- `EQUIPOS_SERVICE_URL` — base URL used by Players.
 - `JUGADORES_SERVICE_URL` — base URL used by Teams.
 
 Database credential externalization is deliberately scheduled for the Docker Compose/configuration phase. At that point, JDBC URLs, usernames and passwords should be injected through environment variables or an ignored local `.env` file, with a committed `.env.example` containing placeholders only. Production secrets should be supplied by the deployment platform or a secrets manager.
