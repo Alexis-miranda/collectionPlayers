@@ -1,6 +1,5 @@
 package com.proyectPlayers.msvc_estadisticaJugador.msvc_estadistica.models.entity;
 
-import com.proyectPlayers.msvc_estadisticaJugador.msvc_estadistica.models.*;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,14 +7,15 @@ import jakarta.persistence.*;
 public class EstadisticaJugador {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private com.proyectPlayers.msvc_estadisticaJugador.msvc_estadistica.models.entity.Jugador jugador;
+    // References to other service domains are identifiers, not cross-service JPA relations.
+    @Column(name = "jugador_id", nullable = false)
+    private Long jugadorId;
 
-    @ManyToOne
-    private Partido partido;
+    @Column(name = "partido_id")
+    private Long partidoId;
 
     private int goles;
     private int asistencias;
@@ -23,12 +23,24 @@ public class EstadisticaJugador {
     private int tarjetasRojas;
     private int minutosJugados;
 
-    public com.proyectPlayers.msvc_estadisticaJugador.msvc_estadistica.models.entity.Jugador getJugador() {
-        return jugador;
+    public Long getId() {
+        return id;
     }
 
-    public void setJugador(com.proyectPlayers.msvc_estadisticaJugador.msvc_estadistica.models.entity.Jugador jugador) {
-        this.jugador = jugador;
+    public Long getJugadorId() {
+        return jugadorId;
+    }
+
+    public void setJugadorId(Long jugadorId) {
+        this.jugadorId = jugadorId;
+    }
+
+    public Long getPartidoId() {
+        return partidoId;
+    }
+
+    public void setPartidoId(Long partidoId) {
+        this.partidoId = partidoId;
     }
 
     public int getGoles() {
@@ -69,17 +81,5 @@ public class EstadisticaJugador {
 
     public void setAsistencias(int asistencias) {
         this.asistencias = asistencias;
-    }
-
-    public Partido getPartido() {
-        return partido;
-    }
-
-    public void setPartido(Partido partido) {
-        this.partido = partido;
-    }
-
-    public Long getId() {
-        return id;
     }
 }
