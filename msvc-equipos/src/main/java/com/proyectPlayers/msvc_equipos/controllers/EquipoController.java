@@ -3,7 +3,7 @@ package com.proyectPlayers.msvc_equipos.controllers;
 import com.proyectPlayers.msvc_equipos.models.Jugador;
 import com.proyectPlayers.msvc_equipos.models.entity.Equipo;
 import com.proyectPlayers.msvc_equipos.services.EquipoService;
-import feign.FeignException;
+import org.springframework.web.client.RestClientException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
