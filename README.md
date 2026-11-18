@@ -316,7 +316,7 @@ The work is split into verifiable increments. Items are only marked complete whe
 
 ### Phase 5 — Delivery and observability
 
-- [ ] Add GitHub Actions for build and test.
+- [x] Add GitHub Actions for build and test (workflow added; execution still needs confirmation).
 - [ ] Add dependency and security scanning.
 - [ ] Add Actuator health/readiness endpoints.
 - [ ] Add structured logs and metrics.
