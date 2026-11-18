@@ -264,7 +264,8 @@ The target quality bar is:
 - Explicit client timeouts and downstream failure handling.
 - Flyway-managed schema migrations.
 - Unit tests for domain/service logic and web-layer behaviour.
-- Integration tests using Testcontainers with PostgreSQL and MySQL.
+- Lightweight application-context smoke tests use an isolated in-memory H2 database; they do not require a developer database.
+- Integration tests using Testcontainers with PostgreSQL and MySQL are still planned.
 - API contract documentation and repeatable smoke tests.
 - Actuator health/readiness endpoints and useful structured logs.
 - Automated build, test and dependency/security checks in CI.
