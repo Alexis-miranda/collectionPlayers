@@ -160,6 +160,7 @@ These route patterns were identified in the existing controllers. They are not a
 |---|---|---|
 | GET | `/` | List players |
 | GET | `/{id}` | Retrieve a player |
+| GET | `/jugadores-por-equipo?ids=1&ids=2` | Retrieve players by IDs for team composition |
 | POST | `/` | Create a player |
 | PUT | `/{id}` | Update a player |
 | DELETE | `/{id}` | Delete a player |
