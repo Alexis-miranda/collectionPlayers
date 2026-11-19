@@ -87,10 +87,10 @@ class PlayersCrudIntegrationTest {
 
     @Test
     void legacyBulkLookupRemainsCompatibleWithTeamsClient() throws Exception {
-        repository.save(new com.proyectPlayers.msvc_jugadores.models.entity.Jugador() {{
-            setNombre("Jugador");
-            setDorsal(9);
-        }});
+        var player = new com.proyectPlayers.msvc_jugadores.models.entity.Jugador();
+        player.setNombre("Jugador");
+        player.setDorsal(9);
+        repository.save(player);
         Long id = repository.findAll().getFirst().getId();
 
         mockMvc.perform(get("/jugadores-por-equipo").param("ids", id.toString()))
