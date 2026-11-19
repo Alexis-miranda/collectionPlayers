@@ -1,88 +1,61 @@
 package com.proyectPlayers.msvc_jugadores.controllers;
 
-import com.proyectPlayers.msvc_jugadores.models.entity.Jugador;
+import com.proyectPlayers.msvc_jugadores.models.dto.request.PlayerRequest;
+import com.proyectPlayers.msvc_jugadores.models.dto.response.PageResponse;
+import com.proyectPlayers.msvc_jugadores.models.dto.response.PlayerResponse;
 import com.proyectPlayers.msvc_jugadores.services.JugadorService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.net.URI;
+import java.util.List;
 
 @RestController
+@RequestMapping({"/api/v1/players", ""})
 public class JugadorController {
 
-    @Autowired
-    private JugadorService service;
+    private final JugadorService service;
 
-
-    @GetMapping
-    public ResponseEntity<List<Jugador>> listar() {
-        return ResponseEntity.ok(service.listar());
+    public JugadorController(JugadorService service) {
+        this.service = service;
     }
 
-    @GetMapping("/jugadores-por-equipo")
-    public ResponseEntity<List<Jugador>> listarPorIds(@RequestParam("ids") List<Long> ids) {
+    @GetMapping
+    public ResponseEntity<PageResponse<PlayerResponse>> listar(
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size) {
+        return ResponseEntity.ok(service.listar(page, size));
+    }
+
+    // Kept as a compatibility contract for the existing Teams service.
+    @GetMapping({"/by-ids", "/jugadores-por-equipo"})
+    public ResponseEntity<List<PlayerResponse>> listarPorIds(@RequestParam("ids") List<Long> ids) {
         return ResponseEntity.ok(service.listarPorIds(ids));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> detalle(@PathVariable Long id) {
-        Optional<Jugador> usuarioOptional = service.porId(id);
-        if (usuarioOptional.isPresent()) {
-            return ResponseEntity.ok(usuarioOptional.get());
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<PlayerResponse> detalle(@PathVariable @Min(1) Long id) {
+        return ResponseEntity.ok(service.porId(id));
     }
 
-
-    @PostMapping("/")
-    public ResponseEntity<?> crear(@Valid @RequestBody Jugador jugador, BindingResult result) {
-
-        if (result.hasErrors()) {
-            return validar(result);
-        }
-Jugador jugadorDb = service.guardar(jugador);
-        return ResponseEntity.status(HttpStatus.CREATED).body(jugadorDb);
+    @PostMapping
+    public ResponseEntity<PlayerResponse> crear(@Valid @RequestBody PlayerRequest request) {
+        PlayerResponse created = service.crear(request);
+        return ResponseEntity.created(URI.create("/api/v1/players/" + created.id())).body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@Valid @RequestBody Jugador jugador, BindingResult result, @PathVariable Long id) {
-
-        if (result.hasErrors()) {
-            return validar(result);
-        }
-
-        Optional<Jugador> o = service.porId(id);
-        if (o.isPresent()) {
-            Jugador usuarioDb = o.get();
-
-            usuarioDb.setNombre(jugador.getNombre());
-           // usuarioDb.setEquipo(jugador.getEquipo());
-            usuarioDb.setDorsal(jugador.getDorsal());
-            return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(usuarioDb));
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<PlayerResponse> actualizar(
+            @PathVariable @Min(1) Long id, @Valid @RequestBody PlayerRequest request) {
+        return ResponseEntity.ok(service.actualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        Optional<Jugador> o = service.porId(id);
-        if (o.isPresent()) {
-            service.eliminar(o.get().getId());
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-
-    private ResponseEntity<Map<String, String>> validar(BindingResult result) {
-        Map<String, String> errores = new HashMap<>();
-        result.getFieldErrors().forEach(err -> {
-            errores.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
-        });
-        return ResponseEntity.badRequest().body(errores);
+    public ResponseEntity<Void> eliminar(@PathVariable @Min(1) Long id) {
+        service.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }
