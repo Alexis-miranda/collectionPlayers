@@ -1,10 +1,12 @@
 package com.proyectPlayers.msvc_jugadores.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -35,6 +37,13 @@ public class GlobalExceptionHandler {
         detail.setProperty("errors", errors);
         detail.setProperty("timestamp", Instant.now());
         return ResponseEntity.badRequest().body(detail);
+    }
+
+    @ExceptionHandler({HandlerMethodValidationException.class, ConstraintViolationException.class})
+    public ResponseEntity<ProblemDetail> handleParameterValidation(
+            Exception exception, HttpServletRequest request) {
+        return problem(HttpStatus.BAD_REQUEST, "Validation failed",
+                "One or more request parameters are invalid.", request);
     }
 
     @ExceptionHandler(Exception.class)
