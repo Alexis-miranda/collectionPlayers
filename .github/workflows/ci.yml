@@ -2,9 +2,9 @@ name: Build and test
 
 on:
   pull_request:
-    branches: [master]
+    branches: [master, "modernization/**", "feature/**"]
   push:
-    branches: [master, "modernization/**"]
+    branches: [master, "modernization/**", "feature/**"]
 
 permissions:
   contents: read
