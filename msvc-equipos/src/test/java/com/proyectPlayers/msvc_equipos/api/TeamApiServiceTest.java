@@ -1,6 +1,8 @@
-package com.proyectPlayers.msvc_equipos.api;
+package com.proyectPlayers.msvc_equipos.services;
 
-import com.proyectPlayers.msvc_equipos.api.dto.TeamRequest;
+import com.proyectPlayers.msvc_equipos.dto.TeamRequest;
+import com.proyectPlayers.msvc_equipos.exceptions.TeamNotFoundException;
+import com.proyectPlayers.msvc_equipos.mappers.TeamMapper;
 import com.proyectPlayers.msvc_equipos.models.entity.Equipo;
 import com.proyectPlayers.msvc_equipos.repositories.EquipoRepository;
 import org.junit.jupiter.api.Test;
