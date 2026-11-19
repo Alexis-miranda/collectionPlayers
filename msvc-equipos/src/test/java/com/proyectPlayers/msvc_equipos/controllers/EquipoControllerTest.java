@@ -112,6 +112,22 @@ class EquipoControllerTest {
     }
 
     @Test
+    void actualizarTeamInexistenteDevuelveProblemDetail404() throws Exception {
+        when(service.actualizar(eq(99L), any(TeamRequest.class)))
+                .thenThrow(new TeamNotFoundException(99L));
+
+        mockMvc.perform(put("/api/v1/teams/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "Equipo inexistente"
+                                }
+                                """))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title").value("Team not found"));
+    }
+
+    @Test
     void eliminarTeamDevuelve204() throws Exception {
         mockMvc.perform(delete("/api/v1/teams/7"))
                 .andExpect(status().isNoContent());
